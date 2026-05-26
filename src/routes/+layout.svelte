@@ -1,6 +1,9 @@
 <script lang="ts">
+	import { ParaglideJS } from '@inlang/paraglide-sveltekit';
+	import { i18n } from '$lib/i18n';
+
 	import './layout.css';
-	import icon from '../lib/assets/favicon.svg'
+	import icon from '../lib/assets/favicon.svg';
 	import { injectSpeedInsights } from '@vercel/speed-insights/sveltekit';
 	import { dev } from '$app/environment';
 	import { injectAnalytics } from '@vercel/analytics/sveltekit';
@@ -57,6 +60,11 @@
 	let { children }: { children: Snippet } = $props();
 </script>
 
-<svelte:head><link rel="icon" href={icon} /></svelte:head>
-<ModeWatcher />
-{@render children()}
+<svelte:head>
+	<link rel="icon" href={icon} />
+</svelte:head>
+
+<ParaglideJS {i18n}>
+	<ModeWatcher />
+	{@render children()}
+</ParaglideJS>
