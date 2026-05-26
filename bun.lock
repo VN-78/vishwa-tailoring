@@ -5,9 +5,8 @@
     "": {
       "name": "svelte-template",
       "dependencies": {
-        "@fontsource/inter": "^5.2.8",
-        "@fontsource/jetbrains-mono": "^5.2.8",
-        "@fontsource/space-grotesk": "^5.2.10",
+        "@fontsource/kavivanar": "^5.2.8",
+        "@fontsource/mukta-malar": "^5.2.7",
         "@vercel/analytics": "^2.0.1",
         "@vercel/speed-insights": "^2.0.0",
         "lenis": "^1.3.23",
@@ -17,7 +16,6 @@
       "devDependencies": {
         "@eslint/compat": "^2.0.4",
         "@eslint/js": "^10.0.1",
-        "@fontsource-variable/jetbrains-mono": "^5.2.8",
         "@internationalized/date": "^3.12.0",
         "@lucide/svelte": "^1.16.0",
         "@sveltejs/adapter-auto": "^7.0.1",
@@ -80,13 +78,9 @@
 
     "@floating-ui/utils": ["@floating-ui/utils@0.2.11", "", {}, "sha512-RiB/yIh78pcIxl6lLMG0CgBXAZ2Y0eVHqMPYugu+9U0AeT6YBeiJpf7lbdJNIugFP5SIjwNRgo4DhR1Qxi26Gg=="],
 
-    "@fontsource-variable/jetbrains-mono": ["@fontsource-variable/jetbrains-mono@5.2.8", "", {}, "sha512-WBA9elru6Jdp5df2mES55wuOO0WIrn3kpXnI4+W2ek5u3ZgLS9XS4gmIlcQhiZOWEKl95meYdvK7xI+ETLCq/Q=="],
+    "@fontsource/kavivanar": ["@fontsource/kavivanar@5.2.8", "", {}, "sha512-wbr/9vQ2da9aabUngCpWLbbHM08XZK3nkLDuQ0eX/BhdVvoJx0MSPzaKJ0WIiKpVHy3fUL8ewOqpCyidGZlvEg=="],
 
-    "@fontsource/inter": ["@fontsource/inter@5.2.8", "", {}, "sha512-P6r5WnJoKiNVV+zvW2xM13gNdFhAEpQ9dQJHt3naLvfg+LkF2ldgSLiF4T41lf1SQCM9QmkqPTn4TH568IRagg=="],
-
-    "@fontsource/jetbrains-mono": ["@fontsource/jetbrains-mono@5.2.8", "", {}, "sha512-6w8/SG4kqvIMu7xd7wt6x3idn1Qux3p9N62s6G3rfldOUYHpWcc2FKrqf+Vo44jRvqWj2oAtTHrZXEP23oSKwQ=="],
-
-    "@fontsource/space-grotesk": ["@fontsource/space-grotesk@5.2.10", "", {}, "sha512-XNXEbT74OIITPqw2H6HXwPDp85fy43uxfBwFR5PU+9sLnjuLj12KlhVM9nZVN6q6dlKjkuN8JisW/OBxwxgUew=="],
+    "@fontsource/mukta-malar": ["@fontsource/mukta-malar@5.2.7", "", {}, "sha512-lyuMsODZ+YTR6AAe1IcHKEYsWq+93LWnnSZLrFxCUeLfnG30wlyByc2RkgmBgBcQ6Rq/ajMGZM5+91PVJdyAvg=="],
 
     "@humanfs/core": ["@humanfs/core@0.19.2", "", { "dependencies": { "@humanfs/types": "^0.15.0" } }, "sha512-UhXNm+CFMWcbChXywFwkmhqjs3PRCmcSa/hfBgLIb7oQ5HNb1wS0icWsGtSAUNgefHeI+eBrA8I1fxmbHsGdvA=="],
 
