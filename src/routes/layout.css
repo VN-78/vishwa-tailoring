@@ -2,20 +2,19 @@
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
 
-@import '@fontsource/space-grotesk/700.css'; /* For bold headings */
-@import '@fontsource/inter/400.css'; /* Regular body text */
-@import '@fontsource/inter/500.css'; /* Medium body text */
-@import '@fontsource/jetbrains-mono/400.css'; /* For tech keywords */
+@import '@fontsource/kavivanar/400.css';
+@import '@fontsource/mukta-malar/400.css';
+@import '@fontsource/mukta-malar/700.css';
 
 /* 1. Map CSS variables to Tailwind v4 theme engine */
 /* Shadcn components rely on these exact Tailwind color names */
 @theme {
-	/* Override default sans with Inter, fallback to standard sans */
-	--font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+	/* Override default sans with Mukta Malar, fallback to standard sans */
+	--font-sans: 'Mukta Malar', ui-sans-serif, system-ui, sans-serif;
 	/* Create a custom utility for headings */
-	--font-heading: 'Space Grotesk', sans-serif;
-	/* Override default mono */
-	--font-mono: 'JetBrains Mono', ui-monospace, monospace;
+	--font-heading: 'Kavivanar', cursive;
+	/* Override default mono to system fallback */
+	--font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
@@ -80,67 +79,68 @@
 /* Instructs Tailwind to apply 'dark:' utilities when the .dark class is on a parent */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* 2. Define the exact Shadcn variables with your Purple Theme */
+/* 2. Define the exact Shadcn variables with the Tailoring Theme */
 @layer base {
 	:root {
-		/* SURFACES: Notice how background is 96%, but the card bumps UP to 100% for elevation */
-		--background: oklch(0.985 0 0); 
-        --card: oklch(1 0 0); /* Pure white card */
-        --popover: oklch(1 0 0); /* Dropdowns */
+		/* SURFACES: Peach for background, Cream for cards (elevation) */
+		--background: oklch(0.927 0.026 54.43); 
+        --card: oklch(0.982 0.005 75.87); 
+        --popover: oklch(0.982 0.005 75.87); 
 
-		/* CONTENT: Deep, legible dark purple/gray text */
-		--foreground: oklch(0.20 0.01 270);             /* Converted from hsl(255, 10%, 10%) */
-        --card-foreground: oklch(0.20 0.01 270);        /* Converted from hsl(255, 10%, 10%) */
-        --popover-foreground: oklch(0.20 0.01 270);     /* Converted from hsl(255, 10%, 10%) */
-		/* MUTED/HIGHLIGHTS: Interactive states and disabled areas (The 90% goes here, not on cards) */
-		--muted: oklch(0.92 0.01 270);
-        --muted-foreground: oklch(0.50 0.01 270);
-        --accent: oklch(0.92 0.01 270); /* Hover states on ghost buttons */
-        --accent-foreground: oklch(0.20 0.01 270);
+		/* CONTENT: Dark brand-aware foreground */
+		--foreground: oklch(0.20 0.02 54.43); 
+        --card-foreground: oklch(0.20 0.02 54.43); 
+        --popover-foreground: oklch(0.20 0.02 54.43); 
 
-		/* BRAND: Your vibrant purple */
-		--primary: oklch(0.55 0.20 290); 
-        --primary-foreground: oklch(1 0 0); /* Pure white text on purple button */
+		/* MUTED/HIGHLIGHTS: Azul for muted tones */
+		--muted: oklch(0.642 0.036 253.11 / 0.2);
+        --muted-foreground: oklch(0.40 0.02 253.11);
+        --accent: oklch(0.641 0.187 50.84 / 0.15); /* Orange hover state */
+        --accent-foreground: oklch(0.532 0.182 45.42);
 
-		/* SECONDARY: A softer alternative action button */
-		--secondary: oklch(0.80 0.1 295); 
-        --secondary-foreground: oklch(0.2 0.01 255); /* Dark text on light purple button */
+		/* BRAND: Aperol primary */
+		--primary: oklch(0.532 0.182 45.42); 
+        --primary-foreground: oklch(0.982 0.005 75.87); /* Cream text on Aperol */
+
+		/* SECONDARY: Orange accent */
+		--secondary: oklch(0.641 0.187 50.84); 
+        --secondary-foreground: oklch(0.982 0.005 75.87); 
 
 		/* UTILITIES */
-		--border: oklch(0.85 0.01 270); 
-        --input: oklch(0.85 0.01 270); 
-        --ring: oklch(0.55 0.20 290); /* Focus rings match primary */
-        --destructive: oklch(0.577 0.245 27.325); /* A standard stark red */
-        --destructive-foreground: oklch(0.985 0 0); /* White text on red */
+		--border: oklch(0.642 0.036 253.11 / 0.3); 
+        --input: oklch(0.642 0.036 253.11 / 0.3); 
+        --ring: oklch(0.532 0.182 45.42); 
+        --destructive: oklch(0.577 0.245 27.325); 
+        --destructive-foreground: oklch(0.985 0 0); 
 
-		/* SUCCESS (Green) - For confirmations, completed statuses */
+		/* SUCCESS */
 		--success: oklch(0.6 0.16 142); 
         --success-foreground: oklch(0.985 0 0);
 
-		/* WARNING (Yellow/Orange) - For cautions, pending statuses */
-		--warning: oklch(0.85 0.19 70); 
-        --warning-foreground: oklch(0.145 0 0);/* Dark text on yellow for contrast */
+		/* WARNING: Mimosa */
+		--warning: oklch(0.792 0.156 75.34); 
+        --warning-foreground: oklch(0.20 0.02 54.43);
 
-		/* INFO (Blue) - For general tips, active processing */
+		/* INFO */
 		--info: oklch(0.6 0.15 260); 
-        --info-foreground: oklch(0.985 0 0);/* White text */
+        --info-foreground: oklch(0.985 0 0);
 
-        /* CHARTS (Categorical Scale complementing Purple) */
-        --chart-1: oklch(0.65 0.25 270); 
-        --chart-2: oklch(0.6 0.15 170); 
-        --chart-3: oklch(0.65 0.2 340); 
-        --chart-4: oklch(0.8 0.2 45); 
-        --chart-5: oklch(0.7 0.1 270);
+        /* CHARTS (Complementary palette) */
+        --chart-1: oklch(0.532 0.182 45.42); 
+        --chart-2: oklch(0.641 0.187 50.84); 
+        --chart-3: oklch(0.792 0.156 75.34); 
+        --chart-4: oklch(0.642 0.036 253.11); 
+        --chart-5: oklch(0.45 0.15 30);
 
-        /* SIDEBAR maped from the main theme variables */
-        --sidebar-background: oklch(0.985 0 0); 
-        --sidebar-foreground: oklch(0.20 0.01 270); 
-        --sidebar-primary: oklch(0.55 0.20 290); 
-        --sidebar-primary-foreground: oklch(1 0 0); 
-        --sidebar-accent: oklch(0.92 0.01 270); 
-        --sidebar-accent-foreground: oklch(0.20 0.01 270); 
-        --sidebar-border: oklch(0.85 0.01 270); 
-        --sidebar-ring: oklch(0.55 0.20 290);
+        /* SIDEBAR */
+        --sidebar-background: oklch(0.927 0.026 54.43); 
+        --sidebar-foreground: oklch(0.20 0.02 54.43); 
+        --sidebar-primary: oklch(0.532 0.182 45.42); 
+        --sidebar-primary-foreground: oklch(0.982 0.005 75.87); 
+        --sidebar-accent: oklch(0.641 0.187 50.84 / 0.15); 
+        --sidebar-accent-foreground: oklch(0.532 0.182 45.42); 
+        --sidebar-border: oklch(0.642 0.036 253.11 / 0.3); 
+        --sidebar-ring: oklch(0.532 0.182 45.42);
 
 		--radius: 0.5rem;
 	}
@@ -148,65 +148,65 @@
 	.dark {
 		color-scheme: dark;
 
-		/* SURFACES: Background is 5%, elevated cards bump UP to 10% */
-		--background: oklch(0.15 0.01 270);             /* Converted from hsl(255, 10%, 5%) */
-        --card: oklch(0.20 0.01 270);                   /* Converted from hsl(255, 10%, 10%) */
-        --popover: oklch(0.20 0.01 270);    
+		/* SURFACES: Inverting and swapping to maintain elevation logic (Card is lighter than background) */
+		--background: oklch(0.018 0.005 75.87); /* Inverted Cream */
+        --card: oklch(0.073 0.026 54.43);       /* Inverted Peach */
+        --popover: oklch(0.073 0.026 54.43);    
 
-		/* CONTENT: Highly legible light text */
-		--foreground: oklch(0.95 0.01 270);             /* Converted from hsl(255, 10%, 92%) */
-        --card-foreground: oklch(0.95 0.01 270);        /* Converted from hsl(255, 10%, 92%) */
-        --popover-foreground: oklch(0.95 0.01 270);
+		/* CONTENT: Lightened foreground */
+		--foreground: oklch(0.80 0.02 54.43); 
+        --card-foreground: oklch(0.80 0.02 54.43); 
+        --popover-foreground: oklch(0.80 0.02 54.43);
 
-		/* MUTED/HIGHLIGHTS: Bumps UP to 16% for hover states to contrast against the 5% background */
-		--muted: oklch(0.25 0.01 270);                  /* Converted from hsl(255, 10%, 16%) */
-        --muted-foreground: oklch(0.75 0.01 270);       /* Converted from hsl(255, 10%, 70%) */
-        --accent: oklch(0.25 0.01 270);                 /* Converted from hsl(255, 10%, 16%) */
-        --accent-foreground: oklch(0.95 0.01 270);      /* Converted from hsl(255, 10%, 92%) */
+		/* MUTED/HIGHLIGHTS */
+		--muted: oklch(0.358 0.036 253.11 / 0.2); /* Inverted Azul L: 1-0.642=0.358 */
+        --muted-foreground: oklch(0.60 0.02 253.11);
+        --accent: oklch(0.359 0.187 50.84 / 0.2); /* Inverted Orange L: 1-0.641=0.359 */
+        --accent-foreground: oklch(0.80 0.02 54.43);
 
-		/* BRAND: Vibrant purple remains unchanged */
-		--primary: oklch(0.55 0.20 290);                /* Converted from hsl(255, 86%, 63%) */
-        --primary-foreground: oklch(1 0 0);             /* Converted from hsl(0, 0%, 100%) - White text on purple button */
+		/* BRAND: Aperol inverted (1-0.532=0.468) */
+		--primary: oklch(0.468 0.182 45.42); 
+        --primary-foreground: oklch(0.018 0.005 75.87); 
 
-  		/* SECONDARY: A softer alternative action button */
-        --secondary: oklch(0.30 0.02 270);              /* Converted from hsl(255, 10%, 20%) - Dark gray/purple */
-        --secondary-foreground: oklch(0.95 0.01 270);   /* Converted from hsl(255, 10%, 92%) */
+  		/* SECONDARY: Orange inverted */
+        --secondary: oklch(0.359 0.187 50.84); 
+        --secondary-foreground: oklch(0.80 0.02 54.43);
 
 		/* UTILITIES */
-		--border: oklch(0.30 0.02 270);              /* Converted from hsl(255, 10%, 20%) */
-		--input: oklch(0.30 0.02 270);              /* Converted from hsl(255, 10%, 20%) */
-		--ring: oklch(0.55 0.20 290);                /* Converted from hsl(255, 86%, 63%) */
-		--destructive: oklch(0.35 0.2 30);           /* Converted from hsl(0, 62.8%, 30.6%) - A deeper red to avoid eye strain */
-		--destructive-foreground: oklch(1 0 0);      /* Converted from hsl(0, 0%, 100%) - White text on red */
+		--border: oklch(0.358 0.036 253.11 / 0.3); 
+		--input: oklch(0.358 0.036 253.11 / 0.3); 
+		--ring: oklch(0.468 0.182 45.42); 
+		--destructive: oklch(0.35 0.2 30); 
+		--destructive-foreground: oklch(1 0 0); 
 
-		/* SUCCESS - Slightly desaturated for dark mode to avoid neon bleed */
-		--success: oklch(0.70 0.20 150);              /* Converted from hsl(142.1, 70.6%, 45.3%) */
-		--success-foreground: oklch(0.95 0.01 270);   /* Converted from hsl(255, 10%, 92%) */
+		/* SUCCESS */
+		--success: oklch(0.70 0.20 150); 
+		--success-foreground: oklch(0.018 0.005 75.87); 
 
-		/* WARNING - Yellow remains bright, dark text remains mandatory */
-		--warning: oklch(0.85 0.15 90);              /* Converted from hsl(48, 96%, 53%) */
-		--warning-foreground: oklch(0.25 0.01 270);   /* Converted from hsl(255, 10%, 10%) */
+		/* WARNING: Mimosa inverted (1-0.792=0.208) */
+		--warning: oklch(0.208 0.156 75.34); 
+		--warning-foreground: oklch(0.80 0.02 54.43); 
 
-		/* INFO - Standard dark mode blue */
-		--info: oklch(0.60 0.20 260);              /* Converted from hsl(217.2, 91.2%, 59.8%) */
-		--info-foreground: oklch(0.25 0.01 270);       /* Converted from hsl(255, 10%, 92%) */
+		/* INFO */
+		--info: oklch(0.60 0.20 260); 
+		--info-foreground: oklch(0.018 0.005 75.87); 
 
 		/* CHARTS */
-        --chart-1: oklch(0.65 0.25 270); 
-        --chart-2: oklch(0.55 0.15 170); 
-        --chart-3: oklch(0.6 0.2 340); 
-        --chart-4: oklch(0.75 0.2 45); 
-        --chart-5: oklch(0.6 0.1 270);
+        --chart-1: oklch(0.468 0.182 45.42); 
+        --chart-2: oklch(0.359 0.187 50.84); 
+        --chart-3: oklch(0.208 0.156 75.34); 
+        --chart-4: oklch(0.358 0.036 253.11); 
+        --chart-5: oklch(0.55 0.15 30);
 
         /* SIDEBAR */
-        --sidebar-background: oklch(0.15 0.01 270); 
-        --sidebar-foreground: oklch(0.95 0.01 270); 
-        --sidebar-primary: oklch(0.55 0.20 290); 
-        --sidebar-primary-foreground: oklch(1 0 0); 
-        --sidebar-accent: oklch(0.25 0.01 270); 
-        --sidebar-accent-foreground: oklch(0.95 0.01 270); 
-        --sidebar-border: oklch(0.30 0.02 270); 
-        --sidebar-ring: oklch(0.55 0.20 290);
+        --sidebar-background: oklch(0.018 0.005 75.87); 
+        --sidebar-foreground: oklch(0.80 0.02 54.43); 
+        --sidebar-primary: oklch(0.468 0.182 45.42); 
+        --sidebar-primary-foreground: oklch(0.018 0.005 75.87); 
+        --sidebar-accent: oklch(0.359 0.187 50.84 / 0.2); 
+        --sidebar-accent-foreground: oklch(0.80 0.02 54.43); 
+        --sidebar-border: oklch(0.358 0.036 253.11 / 0.3); 
+        --sidebar-ring: oklch(0.468 0.182 45.42);
 	}
 }
 /* =========================================
