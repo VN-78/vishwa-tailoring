@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Header from '$lib/components/organisms/Header.svelte';
+	import BackgroundPattern from '$lib/components/molecules/BackgroundPattern.svelte';
 	import { fly } from 'svelte/transition';
 	import { quartOut } from 'svelte/easing';
 	import { onMount } from 'svelte';
@@ -10,6 +11,8 @@
 		isMounted = true;
 	});
 </script>
+
+<BackgroundPattern />
 
 <!-- Change header accordingly to project  -->
 <svelte:head>
