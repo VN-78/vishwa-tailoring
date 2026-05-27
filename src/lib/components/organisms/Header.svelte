@@ -1,21 +1,16 @@
 <script lang="ts">
-	import { HouseIcon, UserRoundPenIcon, ScissorsIcon, ImageIcon, MapPinIcon, LanguagesIcon, MenuIcon, MessageCircleIcon } from '@lucide/svelte';
+	import { HouseIcon, UserRoundPenIcon, ScissorsIcon, ImageIcon, MapPinIcon, LanguagesIcon, MenuIcon } from '@lucide/svelte';
 	import ThemeToggle from '../atoms/ThemeToggle.svelte';
 	import AnimatedText from '../atoms/AnimatedText.svelte';
 	import * as m from '$lib/paraglide/messages.js';
 	import { getLocale, localizeHref } from '$lib/paraglide/runtime.js';
 	import { Button } from '$lib/components/ui/button/index.js';
-	import * as Sheet from '$lib/components/ui/sheet/index.js';
 	import { page } from '$app/stores';
 
 	let scrollY = $state(0);
-	let scrollProgress = $derived(Math.min(scrollY / 150, 1));
-	let navWidth = $derived(100 - 45 * scrollProgress);
-	let navTop = $derived(16 * scrollProgress);
-	let navRadius = $derived(9999 * scrollProgress);
 	let isScrolled = $derived(scrollY > 50);
-
 	let activeSection = $state('home');
+	let isMobileMenuOpen = $state(false);
 
 	$effect(() => {
 		const sections = document.querySelectorAll('section[id]');
@@ -51,20 +46,19 @@
 
 <svelte:window bind:scrollY />
 
-<header class="pointer-events-none fixed top-0 left-0 z-50 w-full md:px-8">
+<!-- Desktop Header -->
+<header class="pointer-events-none fixed top-0 left-0 z-50 hidden w-full md:block md:px-8 pt-4">
 	<div class="max-w-8xl mx-auto flex w-full items-center justify-between px-4 md:px-24 lg:px-32">
 		<nav
-			class="pointer-events-auto mx-auto flex h-14 max-w-full min-w-max items-center overflow-hidden px-6 transition-all duration-75 ease-linear lg:px-8 {isScrolled ? 'border-border bg-background/80 shadow-lg backdrop-blur-md' : 'bg-background border-transparent shadow-none'}"
-			style="width: {navWidth}%; margin-top: {navTop}px; border-radius: {navRadius}px; border-width: 1px;"
+			class="pointer-events-auto mx-auto flex h-14 w-full items-center justify-between overflow-hidden rounded-full px-6 transition-all duration-300 ease-in-out lg:px-8 {isScrolled ? 'border-border bg-background/80 shadow-lg backdrop-blur-md border' : 'bg-background border-transparent shadow-none'}"
 		>
-			<div class="flex flex-1 basis-0 items-center justify-start pr-4">
+			<div class="flex items-center justify-start pr-4">
 				<a href="#home" class="text-foreground font-heading text-xl font-bold tracking-tight">
 					<AnimatedText text={m.brand_name()} />
 				</a>
 			</div>
 
-			<!-- Desktop Nav -->
-			<div class="hidden shrink-0 items-center justify-center gap-4 md:flex lg:gap-6">
+			<div class="flex shrink-0 items-center justify-center gap-4 lg:gap-6">
 				{#each navLinks as link (link.id)}
 					<a
 						href="#{link.id}"
@@ -76,59 +70,56 @@
 				{/each}
 			</div>
 
-			<div class="flex flex-1 basis-0 items-center justify-end gap-2 pl-4">
-				<div class="hidden md:flex gap-2">
-					<Button variant="ghost" size="sm" href={nextLocaleUrl} data-sveltekit-reload class="flex items-center gap-2 font-mono text-xs">
-						<LanguagesIcon size={16} />
-						<AnimatedText text={m.switch_language()} />
-					</Button>
-					<Button variant="default" size="sm" href="https://wa.me/" class="flex items-center gap-2">
-						<MessageCircleIcon size={16} />
-						<span class="hidden lg:inline"><AnimatedText text={m.whatsapp_chat()} /></span>
-					</Button>
-					<ThemeToggle />
-				</div>
-
-				<!-- Mobile Menu Trigger -->
-				<div class="flex md:hidden items-center gap-2">
-					<ThemeToggle />
-					<Sheet.Root>
-						<Sheet.Trigger>
-							<Button variant="ghost" size="icon">
-								<MenuIcon size={24} />
-							</Button>
-						</Sheet.Trigger>
-						<Sheet.Content side="right" class="w-75 sm:w-100">
-							<Sheet.Header>
-								<Sheet.Title>
-									<AnimatedText text={m.brand_name()} />
-								</Sheet.Title>
-							</Sheet.Header>
-							<div class="flex flex-col gap-6 py-8">
-								{#each navLinks as link (link.id)}
-									<a
-										href="#{link.id}"
-										class="flex items-center gap-4 text-lg font-medium transition-colors hover:text-primary {activeSection === link.id ? 'text-foreground' : 'text-muted-foreground'}"
-									>
-										<link.icon size={24} />
-										<AnimatedText text={link.label} />
-									</a>
-								{/each}
-								<div class="mt-4 flex flex-col gap-4 border-t pt-6">
-									<Button variant="outline" href={nextLocaleUrl} data-sveltekit-reload class="w-full justify-start gap-4">
-										<LanguagesIcon size={20} />
-										<AnimatedText text={m.switch_language()} />
-									</Button>
-									<Button variant="default" href="https://wa.me/" class="w-full justify-start gap-4">
-										<MessageCircleIcon size={20} />
-										<AnimatedText text={m.whatsapp_chat()} />
-									</Button>
-								</div>
-							</div>
-						</Sheet.Content>
-					</Sheet.Root>
-				</div>
+			<div class="flex items-center justify-end gap-2 pl-4">
+				<!-- Removed data-sveltekit-reload for seamless client side translation updates -->
+				<Button variant="ghost" size="sm" href={nextLocaleUrl} class="flex items-center gap-2 font-mono text-xs">
+					<LanguagesIcon size={16} />
+					<AnimatedText text={m.switch_language()} />
+				</Button>
+				<ThemeToggle />
 			</div>
 		</nav>
 	</div>
+</header>
+
+<!-- Mobile Header (Simplified per user request) -->
+<header class="pointer-events-none fixed top-0 left-0 z-50 w-full md:hidden pt-2 px-2">
+	<nav
+		class="pointer-events-auto mx-auto flex h-14 items-center justify-between overflow-hidden rounded-full border border-border/20 bg-background/70 px-4 shadow-lg backdrop-blur-md transition-all duration-300 {isMobileMenuOpen ? 'rounded-b-none border-b-0' : ''}"
+	>
+		<div class="flex items-center justify-start">
+			<a href="#home" class="font-heading text-xl font-bold tracking-tight text-foreground" onclick={() => isMobileMenuOpen = false}>
+				<AnimatedText text={m.brand_name()} />
+			</a>
+		</div>
+
+		<div class="flex items-center justify-end gap-2">
+			<!-- Removed data-sveltekit-reload for seamless client side translation updates -->
+			<Button variant="ghost" size="icon" href={nextLocaleUrl}>
+				<LanguagesIcon size={18} />
+			</Button>
+			<ThemeToggle />
+			<Button variant="ghost" size="icon" onclick={() => isMobileMenuOpen = !isMobileMenuOpen}>
+				<MenuIcon size={24} />
+			</Button>
+		</div>
+	</nav>
+
+	<!-- Mobile Menu Dropdown -->
+	{#if isMobileMenuOpen}
+		<div class="pointer-events-auto mx-auto border border-t-0 border-border/20 bg-background/95 shadow-xl backdrop-blur-md rounded-b-2xl px-4 py-4 transition-all">
+			<div class="flex flex-col gap-4">
+				{#each navLinks as link (link.id)}
+					<a
+						href="#{link.id}"
+						onclick={() => isMobileMenuOpen = false}
+						class="flex items-center gap-4 text-base font-medium transition-colors hover:text-primary {activeSection === link.id ? 'text-foreground' : 'text-muted-foreground'}"
+					>
+						<link.icon size={20} />
+						<AnimatedText text={link.label} />
+					</a>
+				{/each}
+			</div>
+		</div>
+	{/if}
 </header>
