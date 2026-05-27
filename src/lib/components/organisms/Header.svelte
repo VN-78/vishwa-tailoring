@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { HouseIcon, SendIcon, UserRoundPenIcon, LanguagesIcon, MenuIcon } from '@lucide/svelte';
+	import { HouseIcon, UserRoundPenIcon, ScissorsIcon, ImageIcon, MapPinIcon, LanguagesIcon, MenuIcon, MessageCircleIcon } from '@lucide/svelte';
 	import ThemeToggle from '../atoms/ThemeToggle.svelte';
 	import AnimatedText from '../atoms/AnimatedText.svelte';
 	import * as m from '$lib/paraglide/messages.js';
-	import {  setLanguageTag } from '$lib/paraglide/runtime.js';
+	import { getLocale, localizeHref } from '$lib/paraglide/runtime.js';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import * as Sheet from '$lib/components/ui/sheet/index.js';
-	import { i18nState } from '$lib/i18n-state.svelte.js';
+	import { page } from '$app/stores';
 
 	let scrollY = $state(0);
 	let scrollProgress = $derived(Math.min(scrollY / 150, 1));
@@ -36,22 +36,17 @@
 		};
 	});
 
-	function toggleLanguage() {
-		const current = i18nState.current;
-		const newLang = current === 'en' ? 'ta' : 'en';
-		console.log('Toggling language from', current, 'to', newLang);
-		setLanguageTag(newLang);
-	}
+	let currentLocale = $derived(getLocale());
+	let nextLocale = $derived(currentLocale === 'en' ? 'ta' : 'en' as "en" | "ta");
+	let nextLocaleUrl = $derived($page?.url?.pathname ? localizeHref($page.url.pathname, { locale: nextLocale }) : '/');
 
-	const navLinks = $derived.by(() => {
-		// Explicitly access i18nState.current to make this derived reactive to language changes
-		const _ = i18nState.current;
-		return [
-			{ id: 'home', icon: HouseIcon, label: m.home },
-			{ id: 'about', icon: UserRoundPenIcon, label: m.services },
-			{ id: 'contact', icon: SendIcon, label: m.contact }
-		];
-	});
+	const navLinks = $derived([
+		{ id: 'home', icon: HouseIcon, label: m.nav_home() },
+		{ id: 'about', icon: UserRoundPenIcon, label: m.nav_about() },
+		{ id: 'services', icon: ScissorsIcon, label: m.nav_services() },
+		{ id: 'gallery', icon: ImageIcon, label: m.nav_gallery() },
+		{ id: 'location', icon: MapPinIcon, label: m.nav_location() }
+	]);
 </script>
 
 <svelte:window bind:scrollY />
@@ -63,9 +58,9 @@
 			style="width: {navWidth}%; margin-top: {navTop}px; border-radius: {navRadius}px; border-width: 1px;"
 		>
 			<div class="flex flex-1 basis-0 items-center justify-start pr-4">
-				<span class="text-foreground font-heading text-xl font-bold tracking-tight">
-					<AnimatedText text={m.brand_name} />
-				</span>
+				<a href="#home" class="text-foreground font-heading text-xl font-bold tracking-tight">
+					<AnimatedText text={m.brand_name()} />
+				</a>
 			</div>
 
 			<!-- Desktop Nav -->
@@ -83,9 +78,13 @@
 
 			<div class="flex flex-1 basis-0 items-center justify-end gap-2 pl-4">
 				<div class="hidden md:flex gap-2">
-					<Button variant="ghost" size="sm" onclick={toggleLanguage} class="flex items-center gap-2 font-mono text-xs">
+					<Button variant="ghost" size="sm" href={nextLocaleUrl} data-sveltekit-reload class="flex items-center gap-2 font-mono text-xs">
 						<LanguagesIcon size={16} />
-						<AnimatedText text={m.switch_language} />
+						<AnimatedText text={m.switch_language()} />
+					</Button>
+					<Button variant="default" size="sm" href="https://wa.me/" class="flex items-center gap-2">
+						<MessageCircleIcon size={16} />
+						<span class="hidden lg:inline"><AnimatedText text={m.whatsapp_chat()} /></span>
 					</Button>
 					<ThemeToggle />
 				</div>
@@ -99,10 +98,10 @@
 								<MenuIcon size={24} />
 							</Button>
 						</Sheet.Trigger>
-						<Sheet.Content side="right" class="w-[300px] sm:w-[400px]">
+						<Sheet.Content side="right" class="w-75 sm:w-100">
 							<Sheet.Header>
 								<Sheet.Title>
-									<AnimatedText text={m.brand_name} />
+									<AnimatedText text={m.brand_name()} />
 								</Sheet.Title>
 							</Sheet.Header>
 							<div class="flex flex-col gap-6 py-8">
@@ -116,9 +115,13 @@
 									</a>
 								{/each}
 								<div class="mt-4 flex flex-col gap-4 border-t pt-6">
-									<Button variant="outline" onclick={toggleLanguage} class="w-full justify-start gap-4">
+									<Button variant="outline" href={nextLocaleUrl} data-sveltekit-reload class="w-full justify-start gap-4">
 										<LanguagesIcon size={20} />
-										<AnimatedText text={m.switch_language} />
+										<AnimatedText text={m.switch_language()} />
+									</Button>
+									<Button variant="default" href="https://wa.me/" class="w-full justify-start gap-4">
+										<MessageCircleIcon size={20} />
+										<AnimatedText text={m.whatsapp_chat()} />
 									</Button>
 								</div>
 							</div>
