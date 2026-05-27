@@ -5,6 +5,11 @@
 	import { dev } from '$app/environment';
 	import { injectAnalytics } from '@vercel/analytics/sveltekit';
 	import { ModeWatcher } from 'mode-watcher';
+	import BackgroundPattern from '$lib/components/molecules/BackgroundPattern.svelte';
+	import FloatingWhatsApp from '$lib/components/molecules/FloatingWhatsApp.svelte';
+	import { page } from '$app/stores';
+	import { setLocale } from '$lib/paraglide/runtime.js';
+	import { onNavigate } from '$app/navigation';
 
 	injectAnalytics({ mode: dev ? 'development' : 'production' });
 	injectSpeedInsights();
@@ -15,6 +20,25 @@
 
 	// import the scroll state store
 	import { scrollState } from '$lib/stores/scroll.svelte';
+
+	// Synchronously update Paraglide's internal language state when URL changes, 
+	// before the template re-evaluates.
+	let currentLocale = $derived.by(() => {
+		const loc = $page.url.pathname.startsWith('/ta') ? 'ta' : 'en';
+		setLocale(loc as "en" | "ta");
+		return loc;
+	});
+
+	onNavigate((navigation) => {
+		if (!document.startViewTransition) return;
+
+		return new Promise((resolve) => {
+			document.startViewTransition(async () => {
+				resolve();
+				await navigation.complete;
+			});
+		});
+	});
 
 	onMount(() => {
 		// Initialize Lenis
@@ -62,4 +86,13 @@
 </svelte:head>
 
 <ModeWatcher />
-{@render children()}
+
+<div class="relative min-h-screen overflow-hidden z-0">
+	<BackgroundPattern />
+	{#key currentLocale}
+		<div style="display: contents">
+			{@render children()}
+			<FloatingWhatsApp />
+		</div>
+	{/key}
+</div>
