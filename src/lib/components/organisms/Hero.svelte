@@ -42,9 +42,6 @@
 		</div>
 
 		<div in:fly={{ x: 50, duration: 1000, easing: quartOut }} class="relative w-full md:w-1/2">
-			<!-- Decorative background elements -->
-			<div class="bg-primary/20 absolute -inset-4 -z-10 rounded-full blur-3xl opacity-50 bg-linear-to-tr from-primary/20 via-secondary/40 to-transparent"></div>
-			
 			<div class="bg-muted relative mx-auto aspect-4/5 w-full max-w-md overflow-hidden rounded-b-lg rounded-t-full border border-border/30 shadow-2xl">
 				<!-- Empty image placeholder as requested -->
 				<div class="flex h-full w-full items-center justify-center bg-linear-to-br from-primary/5 to-secondary/5">
