@@ -7,9 +7,9 @@
 	import { ModeWatcher } from 'mode-watcher';
 	import BackgroundPattern from '$lib/components/molecules/BackgroundPattern.svelte';
 	import FloatingWhatsApp from '$lib/components/molecules/FloatingWhatsApp.svelte';
-	import { page } from '$app/stores';
-	import { setLocale } from '$lib/paraglide/runtime.js';
 	import { onNavigate } from '$app/navigation';
+	import { page } from '$app/state';
+	import { overwriteGetLocale } from '$lib/paraglide/runtime.js';
 
 	injectAnalytics({ mode: dev ? 'development' : 'production' });
 	injectSpeedInsights();
@@ -20,14 +20,6 @@
 
 	// import the scroll state store
 	import { scrollState } from '$lib/stores/scroll.svelte';
-
-	// Synchronously update Paraglide's internal language state when URL changes, 
-	// before the template re-evaluates.
-	let currentLocale = $derived.by(() => {
-		const loc = $page.url.pathname.startsWith('/ta') ? 'ta' : 'en';
-		setLocale(loc as "en" | "ta");
-		return loc;
-	});
 
 	onNavigate((navigation) => {
 		if (!document.startViewTransition) return;
@@ -41,6 +33,12 @@
 	});
 
 	onMount(() => {
+		// Bulletproof Svelte 5 integration:
+		// Link Paraglide's internal language detection directly to SvelteKit's URL state.
+		// We do this in onMount to prevent hydration mismatches, ensuring the initial
+		// client-side render matches the SSR output perfectly.
+		overwriteGetLocale(() => (page.url.pathname.startsWith('/ta') ? 'ta' : 'en'));
+
 		// Initialize Lenis
 		const lenis = new Lenis({
 			duration: 1.2,
@@ -89,10 +87,6 @@
 
 <div class="relative min-h-screen overflow-hidden z-0">
 	<BackgroundPattern />
-	{#key currentLocale}
-		<div style="display: contents">
-			{@render children()}
-			<FloatingWhatsApp />
-		</div>
-	{/key}
+	{@render children()}
+	<FloatingWhatsApp />
 </div>

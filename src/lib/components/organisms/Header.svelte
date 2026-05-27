@@ -5,7 +5,7 @@
 	import * as m from '$lib/paraglide/messages.js';
 	import { getLocale, localizeHref } from '$lib/paraglide/runtime.js';
 	import { Button } from '$lib/components/ui/button/index.js';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 
 	let scrollY = $state(0);
 	let isScrolled = $derived(scrollY > 50);
@@ -13,16 +13,28 @@
 	let isMobileMenuOpen = $state(false);
 
 	$effect(() => {
+		// If at the very top, always show home as active
+		if (scrollY < 100) {
+			activeSection = 'home';
+			return;
+		}
+
 		const sections = document.querySelectorAll('section[id]');
 		const observer = new IntersectionObserver(
 			(entries) => {
-				entries.forEach((entry) => {
-					if (entry.isIntersecting) {
-						activeSection = entry.target.id;
-					}
-				});
+				// Find the section with the most intersection
+				const intersecting = entries
+					.filter(e => e.isIntersecting)
+					.sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+				
+				if (intersecting.length > 0) {
+					activeSection = intersecting[0].target.id;
+				}
 			},
-			{ threshold: 0.5, rootMargin: '-100px 0px 0px 0px' }
+			{ 
+				threshold: [0.1, 0.5, 0.8], 
+				rootMargin: '-20% 0px -60% 0px' // Focus on the upper-middle part of the viewport
+			}
 		);
 		sections.forEach((section) => observer.observe(section));
 		return () => {
@@ -31,17 +43,22 @@
 		};
 	});
 
+	// These are now reactive because getLocale() is linked to page.url
 	let currentLocale = $derived(getLocale());
 	let nextLocale = $derived(currentLocale === 'en' ? 'ta' : 'en' as "en" | "ta");
-	let nextLocaleUrl = $derived($page?.url?.pathname ? localizeHref($page.url.pathname, { locale: nextLocale }) : '/');
+	let nextLocaleUrl = $derived(localizeHref(page.url.pathname, { locale: nextLocale }));
 
-	const navLinks = $derived([
-		{ id: 'home', icon: HouseIcon, label: m.nav_home() },
-		{ id: 'about', icon: UserRoundPenIcon, label: m.nav_about() },
-		{ id: 'services', icon: ScissorsIcon, label: m.nav_services() },
-		{ id: 'gallery', icon: ImageIcon, label: m.nav_gallery() },
-		{ id: 'location', icon: MapPinIcon, label: m.nav_location() }
-	]);
+	// Force re-deriving links when locale changes
+	const navLinks = $derived.by(() => {
+		void  currentLocale; 
+		return [
+			{ id: 'home', icon: HouseIcon, label: m.nav_home() },
+			{ id: 'about', icon: UserRoundPenIcon, label: m.nav_about() },
+			{ id: 'services', icon: ScissorsIcon, label: m.nav_services() },
+			{ id: 'gallery', icon: ImageIcon, label: m.nav_gallery() },
+			{ id: 'location', icon: MapPinIcon, label: m.nav_location() }
+		];
+	});
 </script>
 
 <svelte:window bind:scrollY />
@@ -71,8 +88,8 @@
 			</div>
 
 			<div class="flex items-center justify-end gap-2 pl-4">
-				<!-- Removed data-sveltekit-reload for seamless client side translation updates -->
-				<Button variant="ghost" size="sm" href={nextLocaleUrl} class="flex items-center gap-2 font-mono text-xs">
+				<!-- Using data-sveltekit-reload to ensure clean state and animation trigger -->
+				<Button variant="ghost" size="sm" href={nextLocaleUrl} data-sveltekit-reload class="flex items-center gap-2 font-mono text-xs">
 					<LanguagesIcon size={16} />
 					<AnimatedText text={m.switch_language()} />
 				</Button>
@@ -82,7 +99,7 @@
 	</div>
 </header>
 
-<!-- Mobile Header (Simplified per user request) -->
+<!-- Mobile Header -->
 <header class="pointer-events-none fixed top-0 left-0 z-50 w-full md:hidden pt-2 px-2">
 	<nav
 		class="pointer-events-auto mx-auto flex h-14 items-center justify-between overflow-hidden rounded-full border border-border/20 bg-background/70 px-4 shadow-lg backdrop-blur-md transition-all duration-300 {isMobileMenuOpen ? 'rounded-b-none border-b-0' : ''}"
@@ -94,8 +111,7 @@
 		</div>
 
 		<div class="flex items-center justify-end gap-2">
-			<!-- Removed data-sveltekit-reload for seamless client side translation updates -->
-			<Button variant="ghost" size="icon" href={nextLocaleUrl}>
+			<Button variant="ghost" size="icon" href={nextLocaleUrl} data-sveltekit-reload>
 				<LanguagesIcon size={18} />
 			</Button>
 			<ThemeToggle />
@@ -105,7 +121,6 @@
 		</div>
 	</nav>
 
-	<!-- Mobile Menu Dropdown -->
 	{#if isMobileMenuOpen}
 		<div class="pointer-events-auto mx-auto border border-t-0 border-border/20 bg-background/95 shadow-xl backdrop-blur-md rounded-b-2xl px-4 py-4 transition-all">
 			<div class="flex flex-col gap-4">

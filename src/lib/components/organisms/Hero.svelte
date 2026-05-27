@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Needle from '../atoms/icons/Needle.svelte';
-	import { ArrowRightIcon, CheckCircleIcon } from '@lucide/svelte';
+	import { ArrowRightIcon,} from '@lucide/svelte';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import * as m from '$lib/paraglide/messages.js';
 	import AnimatedText from '../atoms/AnimatedText.svelte';
@@ -50,7 +50,7 @@
 			</div>
 
 			<!-- Floating Badge -->
-			<div class="bg-background/95 border-border/20 absolute bottom-10 -left-6 flex items-center gap-4 rounded-xl border p-4 shadow-lg backdrop-blur-md md:-left-12">
+			<!-- <div class="bg-background/95 border-border/20 absolute bottom-10 -left-6 flex items-center gap-4 rounded-xl border p-4 shadow-lg backdrop-blur-md md:-left-12">
 				<div class="bg-primary/10 text-primary flex h-12 w-12 items-center justify-center rounded-full">
 					<CheckCircleIcon size={24} />
 				</div>
@@ -58,7 +58,7 @@
 					<p class="text-foreground font-semibold"><AnimatedText text={m.hero_perfect_fit()} /></p>
 					<p class="text-muted-foreground text-sm"><AnimatedText text={m.hero_guaranteed()} /></p>
 				</div>
-			</div>
+			</div> -->
 		</div>
 	{/if}
 </section>
