@@ -1,6 +1,5 @@
 <script lang="ts">
 	import DecryptedText from './DecryptedText.svelte';
-	import { i18nState } from '$lib/i18n-state.svelte.js';
 
 	interface Props {
 		text: string | (() => string);
@@ -19,23 +18,13 @@
 	}: Props = $props();
 
 	// If text is a function (like a paraglide message), call it
-	// We wrap it in a derived to ensure it re-evaluates when i18nState.current changes
-	let currentText = $derived.by(() => {
-		// Accessing i18nState.current here makes this derived reactive to language changes
-		const _ = i18nState.current;
-		return typeof text === 'function' ? text() : text;
-	});
-	
-	// Track language changes reactively to re-trigger the "direct" animation
-	let currentLang = $derived(i18nState.current);
+	let currentText = $derived(typeof text === 'function' ? text() : text);
 </script>
 
-{#key currentLang}
-	<DecryptedText
-		text={currentText}
-		{animateOn}
-		class={className}
-		encryptedClass={encryptedClass}
-		{...rest}
-	/>
-{/key}
+<DecryptedText
+	text={currentText}
+	{animateOn}
+	class={className}
+	encryptedClass={encryptedClass}
+	{...rest}
+/>
