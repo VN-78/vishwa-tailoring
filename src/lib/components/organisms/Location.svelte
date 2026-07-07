@@ -71,13 +71,15 @@
 			</div>
 
 			<div in:fly={{ x: 30, duration: 1000, easing: quartOut }} class="bg-muted border-border/20 relative aspect-video overflow-hidden rounded-2xl border shadow-md lg:aspect-auto">
-				<!-- Map Placeholder -->
-				<div class="flex h-full w-full items-center justify-center bg-linear-to-br from-primary/5 to-secondary/5">
-					<div class="text-center">
-						<MapPinIcon size={48} class="text-primary/20 mx-auto mb-4" />
-						<p class="text-muted-foreground">Interactive Map Integration</p>
-					</div>
-				</div>
+				<!-- Google Maps Embed -->
+				<iframe
+					title="Vishwa Tailoring Location on Google Maps"
+					src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3886.4883134260387!2d80.17953257507577!3d13.080913987244588!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5266ab0e5e0cf7%3A0xe5a36378e99908cf!2s6%2C%20Rangaswamy%20St%2C%20Golden%20George%20Nagar%2C%20Mogappair%20East%2C%20Mogappair%2C%20Chennai%2C%20Tamil%20Nadu%20600107!5e0!3m2!1sen!2sin!4v1720347600000!5m2!1sen!2sin"
+					class="absolute inset-0 h-full w-full border-0"
+					allowfullscreen
+					loading="lazy"
+					referrerpolicy="no-referrer-when-downgrade"
+				></iframe>
 			</div>
 		</div>
 	{/if}
