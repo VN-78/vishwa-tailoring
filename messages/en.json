@@ -7,6 +7,7 @@
 	"nav_services": "Services",
 	"nav_gallery": "Gallery",
 	"nav_location": "Location",
+	"nav_testimonials": "Testimonials",
 	"whatsapp_chat": "WhatsApp Chat",
 	"chat_with_us": "Chat with us",
 	"hero_badge": "Premium Indian Boutique",
@@ -59,5 +60,16 @@
 	"gallery_item_9_title": "Terracotta Hues",
 	"gallery_item_9_desc": "Earthy Palette Touches",
 	"gallery_item_10_title": "Textured Silks",
-	"gallery_item_10_desc": "Rich Fabric Foundations"
+	"gallery_item_10_desc": "Rich Fabric Foundations",
+	"testimonials_title": "Client Stories",
+	"testimonials_subtitle": "Hear from our valued clients who have experienced the art of bespoke tailoring and the perfect fit.",
+	"testimonial_1_name": "Meera Krishnan",
+	"testimonial_1_role": "Bridal Client",
+	"testimonial_1_quote": "The wedding blouse stitched by Amma was absolutely stunning. The intricate Aari work and perfect fit drew so many compliments. She is truly a master artisan!",
+	"testimonial_2_name": "Priya Srinivasan",
+	"testimonial_2_role": "Regular Customer",
+	"testimonial_2_quote": "I've been getting my pattern blouses and designer wear done here for over 3 years. The fit is always flawless and the finishing is exceptionally clean. Highly recommended!",
+	"testimonial_3_name": "Anitha Rajan",
+	"testimonial_3_role": "Festive Wear Client",
+	"testimonial_3_quote": "I got a kids frock and a designer lehenga stitched for my daughter. Extremely comfortable fabric alignment and beautiful custom designs. She understands exactly what we want."
 }
