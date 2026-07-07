@@ -5,7 +5,7 @@
 	import { dev } from '$app/environment';
 	import { injectAnalytics } from '@vercel/analytics/sveltekit';
 	import { ModeWatcher } from 'mode-watcher';
-	import BackgroundPattern from '$lib/components/molecules/BackgroundPattern.svelte';
+	// import BackgroundPattern from '$lib/components/molecules/BackgroundPattern.svelte';
 	import FloatingWhatsApp from '$lib/components/molecules/FloatingWhatsApp.svelte';
 	import { onNavigate } from '$app/navigation';
 	import { page } from '$app/state';
@@ -86,7 +86,7 @@
 <ModeWatcher />
 
 <div class="relative min-h-screen overflow-hidden z-0">
-	<BackgroundPattern />
+	<!-- <BackgroundPattern /> -->
 	{@render children()}
 	<FloatingWhatsApp />
 </div>
