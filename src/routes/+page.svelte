@@ -3,6 +3,7 @@
 	import Hero from '$lib/components/organisms/Hero.svelte';
 	import About from '$lib/components/organisms/About.svelte';
 	import Services from '$lib/components/organisms/Services.svelte';
+	import Testimonials from '$lib/components/organisms/Testimonials.svelte';
 	import Location from '$lib/components/organisms/Location.svelte';
 	import { fly } from 'svelte/transition';
 	import { quartOut } from 'svelte/easing';
@@ -26,6 +27,7 @@
 			<Hero />
 			<About />
 			<Services />
+			<Testimonials />
 			<Location />
 
 			<footer class="border-t border-border/10 py-12 text-center text-muted-foreground">
@@ -34,3 +36,4 @@
 		</div>
 	</main>
 {/if}
+
