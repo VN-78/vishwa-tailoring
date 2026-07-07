@@ -5,7 +5,8 @@
 		ScissorsIcon,
 		MapPinIcon,
 		LanguagesIcon,
-		MenuIcon
+		MenuIcon,
+		MessageSquareIcon
 	} from '@lucide/svelte';
 	import ThemeToggle from '../atoms/ThemeToggle.svelte';
 	import AnimatedText from '../atoms/AnimatedText.svelte';
@@ -70,6 +71,7 @@
 			{ id: 'home', icon: HouseIcon, label: m.nav_home() },
 			{ id: 'about', icon: UserRoundPenIcon, label: m.nav_about() },
 			{ id: 'services', icon: ScissorsIcon, label: m.nav_services() },
+			{ id: 'testimonials', icon: MessageSquareIcon, label: m.nav_testimonials() },
 			{ id: 'location', icon: MapPinIcon, label: m.nav_location() }
 		];
 	});
