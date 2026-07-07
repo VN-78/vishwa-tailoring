@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { MapPinIcon, PhoneIcon, ClockIcon, } from '@lucide/svelte';
+	import { MapPinIcon, PhoneIcon, ClockIcon, HouseIcon } from '@lucide/svelte';
 	import * as m from '$lib/paraglide/messages.js';
 	import AnimatedText from '../atoms/AnimatedText.svelte';
 	import { fly } from 'svelte/transition';
@@ -21,6 +21,8 @@
 	});
 </script>
 
+<!-- testing dev branch -->
+
 <section id="location" bind:this={sectionRef} class="py-16 md:py-24">
 	{#if isVisible}
 		<div class="mx-auto mb-16 max-w-2xl text-center">
@@ -32,30 +34,30 @@
 		<div class="grid grid-cols-1 gap-12 lg:grid-cols-2">
 			<div in:fly={{ x: -30, duration: 1000, easing: quartOut }} class="flex flex-col gap-8">
 				<div class="bg-muted/50 rounded-2xl p-8 border border-border/10">
-					<h3 class="text-2xl font-bold mb-6 flex items-center gap-2">
-						<MapPinIcon class="text-primary" />
-						Visit Our Boutique
+					<h3 class="text-4xl font-bold mb-12 flex items-center gap-2">
+						<HouseIcon class="text-primary" />
+						Visit Us
 					</h3>
 					<div class="space-y-6">
-						<div class="flex gap-4">
+						<div class="flex gap-4 text-2xl">
 							<div class="bg-primary/10 text-primary flex h-10 w-10 shrink-0 items-center justify-center rounded-full">
 								<MapPinIcon size={20} />
 							</div>
 							<div>
 								<p class="font-bold">Address</p>
-								<p class="text-muted-foreground">[Insert Your Actual Address Here]</p>
+								<p class="text-muted-foreground">6, Rangaswamy St, Golden George Nagar, Mogappair East, Chennai, Tamil Nadu 600107</p>
 							</div>
 						</div>
-						<div class="flex gap-4">
+						<div class="flex gap-4 text-2xl">
 							<div class="bg-primary/10 text-primary flex h-10 w-10 shrink-0 items-center justify-center rounded-full">
 								<PhoneIcon size={20} />
 							</div>
 							<div>
 								<p class="font-bold">Phone</p>
-								<p class="text-muted-foreground">+91 [Insert Phone Number]</p>
+								<p class="text-muted-foreground">+91 8838510906</p>
 							</div>
 						</div>
-						<div class="flex gap-4">
+						<div class="flex gap-4 text-2xl">
 							<div class="bg-primary/10 text-primary flex h-10 w-10 shrink-0 items-center justify-center rounded-full">
 								<ClockIcon size={20} />
 							</div>
