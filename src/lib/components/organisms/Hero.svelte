@@ -1,11 +1,12 @@
 <script lang="ts">
-	import Needle from '../atoms/icons/Needle.svelte';
+	// import Needle from '../atoms/icons/Needle.svelte';
 	import { ArrowRightIcon,} from '@lucide/svelte';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import * as m from '$lib/paraglide/messages.js';
 	import AnimatedText from '../atoms/AnimatedText.svelte';
 	import { fly } from 'svelte/transition';
 	import { quartOut } from 'svelte/easing';
+	import mainImg from '../../assets/samples/other/main-transparent.webp'
 
 	let isMounted = $state(false);
 	import { onMount } from 'svelte';
@@ -35,20 +36,20 @@
 					<AnimatedText text={m.hero_cta_whatsapp()} />
 					<ArrowRightIcon size={18} class="transition-transform group-hover:translate-x-1" />
 				</Button>
-				<Button href="#gallery" variant="outline" size="lg">
+				<Button href="#services" variant="outline" size="lg">
 					<AnimatedText text={m.hero_cta_portfolio()} />
 				</Button>
 			</div>
 		</div>
 
-		<div in:fly={{ x: 50, duration: 1000, easing: quartOut }} class="relative w-full md:w-1/2">
-			<div class="bg-muted relative mx-auto aspect-4/5 w-full max-w-md overflow-hidden rounded-b-lg rounded-t-full border border-border/30 shadow-2xl">
-				<!-- Empty image placeholder as requested -->
-				<div class="flex h-full w-full items-center justify-center bg-linear-to-br from-primary/5 to-secondary/5">
-					<Needle size={120} class="text-primary/20" />
-				</div>
-			</div>
+		<div in:fly={{ x: 50, duration: 1000, easing: quartOut }} class="relative w-full md:w-1/2 p-4">
 
+		<div class=" p-4 circle-border-wrapper relative aspect-square w-full cursor-pointer border-none  rounded-full transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-2xl hover:shadow-primary/20">
+        
+        <img src={mainImg} alt="cover" class="relative z-10 h-full w-full rounded-full object-cover" />
+        
+    </div>
+		</div>
 			<!-- Floating Badge -->
 			<!-- <div class="bg-background/95 border-border/20 absolute bottom-10 -left-6 flex items-center gap-4 rounded-xl border p-4 shadow-lg backdrop-blur-md md:-left-12">
 				<div class="bg-primary/10 text-primary flex h-12 w-12 items-center justify-center rounded-full">
@@ -59,10 +60,56 @@
 					<p class="text-muted-foreground text-sm"><AnimatedText text={m.hero_guaranteed()} /></p>
 				</div>
 			</div> -->
-		</div>
+		<!-- </div> -->
 	{/if}
 </section>
 
 <style>
-	/* Custom styles if needed */
+    /* 1. Define the custom angle property so CSS knows it can be animated */
+    @property --draw-angle {
+        syntax: "<angle>";
+        initial-value: 0deg;
+        inherits: false;
+    }
+
+    .circle-border-wrapper::before {
+        content: "";
+        position: absolute;
+        inset: -8px; /* 8px border thickness */
+        border-radius: 50%;
+        z-index: 0;
+        
+        /* Your repeating pattern background */
+        background: repeating-radial-gradient(
+            circle at center, 
+            #F8CA00 0 10px, 
+            #E97F02 0 20px, 
+            #BD1550 0 30px
+        );
+        
+        /* 2. WebKit (Safari/Chrome/iOS) Multi-Mask Setup */
+        -webkit-mask-image: 
+            /* Layer 1: The Sweep */
+            conic-gradient(from 0deg, black var(--draw-angle), transparent 0),
+            /* Layer 2: The Donut Hole */
+            radial-gradient(closest-side, transparent calc(100% - 8px), black calc(100% - 8px));
+        /* Tell WebKit to intersect the two masks */
+        -webkit-mask-composite: source-in; 
+
+        /* 3. Standard W3C Multi-Mask Setup */
+        mask-image: 
+            conic-gradient(from 0deg, black var(--draw-angle), transparent 0),
+            radial-gradient(closest-side, transparent calc(100% - 8px), black calc(100% - 8px));
+        /* Tell standard browsers to intersect the two masks */
+        mask-composite: intersect;
+        
+        /* 4. Animate our custom property */
+        transition: --draw-angle 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* 5. The Hover State */
+    .circle-border-wrapper:hover::before {
+        /* Draw the circle all the way around to 360 degrees */
+        --draw-angle: 360deg;
+    }
 </style>
